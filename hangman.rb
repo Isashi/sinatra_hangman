@@ -2,6 +2,7 @@ require "sinatra"
 require "sinatra/reloader" if development?
 
 enable :sessions
+
 $secret_word=""
 $hidden_word=""
 $message = ""
@@ -73,26 +74,4 @@ end
     	  $hidden_word += "_ "
     	end
   	end
-	end
-
-	def newgame
-		loop do 
-			secretword
-			until $gameover
-  		check_input
-  		checkword
-  		if $secret_word.include? $guess then
- 				puts "Correct!" else
- 				$turn -= 1
- 			end
-  		if $remainingletters == 0 then
-  			secretword
-  			win
-  			$gameover = true elsif
-  			$turn > 0 then
-  			newgame else
-  			"Game over! The secret word was ""#{$secret_word}""!"
-  		end
-			end
-		end
 	end
