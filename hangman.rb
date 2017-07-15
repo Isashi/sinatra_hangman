@@ -18,11 +18,16 @@ end
 
 post "/" do
 	$message = ""
-	unless $secret_word.include?(params["guess"]) or $guessed.include?(params["guess"]) then $turn -= 1 end
-	if $guessed.include?(params["guess"]) then $message = "You already used this letter!" else
-		$guessed << params["guess"]
+	guess = params["guess"].downcase
+	if guess =~ /[[:alpha:]]/ then
+	unless $secret_word.include?(guess) or $guessed.include?(guess) then $turn -= 1 end
+	if $guessed.include?(guess) then $message = "You already used this letter!" else
+		$guessed << guess
 	end
 	secretword
+	else
+		$message = "Invalid input"
+	end
 	if $remainingletters == 0 or $turn == 0 then redirect to("/gameover") else redirect to("/") end
 end
 
